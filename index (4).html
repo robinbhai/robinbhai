@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mera Channel</title>
+<meta name="description" content="Join our Telegram channel">
+<!-- Meta Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', 'YOUR_PIXEL_ID'); /* <-- YAHAN APNA PIXEL ID DALO (dono jagah) */
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
+<style>
+  :root {
+    --bg: #0b1030;
+    --text: #ffffff;
+    --muted: #d6d9ea;
+    --btn: #1da1f2;
+    --count: #22e04a;
+    --ring: #5b3df5;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { min-height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 28px 18px 40px;
+  }
+  .wrap { width: 100%; max-width: 420px; text-align: center; }
+
+  .avatar {
+    width: 112px; height: 112px; border-radius: 50%;
+    margin: 20px auto 0;
+    padding: 4px;
+    background: linear-gradient(135deg, var(--ring), #3a7bff);
+    box-shadow: 0 0 22px rgba(91, 61, 245, .55);
+  }
+  .avatar img {
+    width: 100%; height: 100%; border-radius: 50%;
+    object-fit: cover; display: block; background: #1b2150;
+  }
+
+  h1 { font-size: 28px; font-weight: 700; margin-top: 26px; line-height: 1.25; }
+  .count { margin-top: 16px; font-weight: 700; font-size: 17px; color: var(--count); }
+  .tag { margin-top: 18px; color: var(--muted); font-size: 17px; line-height: 1.6; }
+
+  .join {
+    display: block; width: 100%;
+    margin-top: 32px; padding: 15px 10px;
+    background: var(--btn); color: #fff;
+    border-radius: 10px; text-decoration: none;
+    font-size: 18px; font-weight: 600;
+    transition: transform .15s, filter .15s;
+  }
+  .join:hover { filter: brightness(1.08); }
+  .join:active { transform: scale(.98); }
+  .join:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+  .redirect { margin-top: 18px; font-size: 14px; color: var(--muted); }
+
+  .desc { margin-top: 44px; text-align: left; }
+  .desc h2 { font-size: 19px; margin-bottom: 14px; }
+  .desc ul { list-style: none; }
+  .desc li { margin-bottom: 11px; font-size: 16px; font-weight: 600; line-height: 1.4; }
+  .desc li::before { content: "\2705"; margin-right: 8px; }
+</style>
+</head>
+<body>
+  <main class="wrap">
+
+    <div class="avatar"><img id="avatar" alt="Channel photo"></div>
+    <h1 id="name"></h1>
+    <p class="count" id="subs"></p>
+    <p class="tag" id="tagline"></p>
+
+    <a class="join" id="joinBtn" href="#" rel="noopener">Join Telegram</a>
+    <p class="redirect" id="redirect"></p>
+
+    <section class="desc">
+      <h2>Description</h2>
+      <ul id="points"></ul>
+    </section>
+
+  </main>
+
+<script>
+  /* ================= YAHAN SIRF YEH CHANGE KARO ================= */
+  const CONFIG = {
+    image: "profile.jpg",                 // apni image ka naam (repo me index.html ke saath upload karo) ya full URL
+    name: "Channel Ka Naam",              // channel / brand name
+    subscribers: "10,000 Subscribers",    // sach wala number rakho
+    tagline: ["Pehli line", "Doosri line"], // 1 ya 2 lines
+    buttonText: "Join Telegram",
+    telegramLink: "https://t.me/+ykiFf2E73A8yMzhl", // apna Telegram link
+    redirectSeconds: 15,                  // 0 likhoge to auto redirect band
+    points: [                             // description ke points, kam ya zyada kar sakte ho
+      "Pehla point yahan likho",
+      "Doosra point yahan likho",
+      "Teesra point yahan likho",
+      "Free Joining"
+    ]
+  };
+  /* ============================================================== */
+
+  const $ = id => document.getElementById(id);
+  $("avatar").src = CONFIG.image;
+  $("name").textContent = CONFIG.name;
+  $("subs").textContent = "\uD83D\uDC65 " + CONFIG.subscribers;
+  $("tagline").innerHTML = CONFIG.tagline.map(t => {
+    const s = document.createElement("span"); s.textContent = t; return s.outerHTML;
+  }).join("<br>");
+  $("joinBtn").textContent = "\uD83D\uDE80 " + CONFIG.buttonText;
+  $("joinBtn").href = CONFIG.telegramLink;
+  CONFIG.points.forEach(p => {
+    const li = document.createElement("li"); li.textContent = p; $("points").appendChild(li);
+  });
+  document.title = CONFIG.name;
+
+  /* Join button click -> Meta Pixel "Subscribe" event, phir Telegram open */
+  $("joinBtn").addEventListener("click", function (e) {
+    e.preventDefault();
+    try { fbq("track", "Subscribe"); } catch (err) {}
+    setTimeout(function () { window.location.href = CONFIG.telegramLink; }, 250);
+  });
+
+  if (CONFIG.redirectSeconds > 0) {
+    let left = CONFIG.redirectSeconds;
+    const out = $("redirect");
+    const tick = () => {
+      out.textContent = "Redirecting in " + left + " seconds...";
+      if (left <= 0) { window.location.href = CONFIG.telegramLink; return; }
+      left--; setTimeout(tick, 1000);
+    };
+    tick();
+  }
+</script>
+</body>
+</html>
